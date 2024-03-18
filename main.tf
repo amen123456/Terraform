@@ -33,7 +33,7 @@ data "vsphere_virtual_machine" "template" {
 resource "vsphere_virtual_machine" "vm_machine" {
     name= "VM-terraform"
     resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
-    folder = "Amen Allah Ben Khalifa"
+    folder = "Amen allah Ben Khalifa"
     datastore_id = data.vsphere_datastore.datastore.id
     guest_id = "ubuntu64Guest"
     network_interface {
