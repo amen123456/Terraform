@@ -1,10 +1,10 @@
 variable "vsphere_login" {
-  default   = "mmi"
+  default   = "abk"
   type      = string
   sensitive = true
 }
 variable "vsphere_password" {
-  default   = "bQ#6252ipi+WX_"
+  default   = "+Q#i62XWpbi5_2"
   type      = string
   sensitive = true
 }
