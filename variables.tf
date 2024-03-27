@@ -26,7 +26,7 @@ variable "network_name" {
 }
 variable "template_name" {
   type        = string
-  default     = "Ubuntu-Template"
+  default     = "Ubuntu-2004-Template"
 }
 
 
