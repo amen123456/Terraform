@@ -1,7 +1,16 @@
+terraform {
+  required_version = ">= 1.7.0"  // Assurez-vous que cela correspond à une version supportée par votre configuration.
+  required_providers {
+    vsphere = {
+      source  = "hashicorp/vsphere"
+      version = "= 1.15.0"
+    }
+  }
+}
 provider "vsphere" {
   user                 = var.vsphere_login
   password             = var.vsphere_password
-  vsphere_server       = "vc-vstack-017-lab.virtualstack.tn"
+  vsphere_server       = var.vsphere_server
   allow_unverified_ssl = true
 }
 //----data sources---//
@@ -20,7 +29,7 @@ data "vsphere_datastore" "datastore" {
 }
 ///getting the network
 data "vsphere_network" "network" {
-  name          = var.network_name
+  name = var.network_name
   datacenter_id = data.vsphere_datacenter.datacenter.id
 }
 //getting the vm template
@@ -31,30 +40,29 @@ data "vsphere_virtual_machine" "template" {
 //----end data sources---//
 //--ressources--//
 resource "vsphere_virtual_machine" "vm_machine" {
-    name= "VM-terraform"
-    resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
-    folder = "Amen allah Ben Khalifa"
-    datastore_id = data.vsphere_datastore.datastore.id
-    guest_id = "ubuntu64Guest"
-    network_interface {
-        network_id = data.vsphere_network.network.id
-        adapter_type = "vmxnet3"
-    }
-    disk {
-        label = "disk0"
-        size  = 50
-        thin_provisioned = false
-    }
-    clone {
-        template_uuid = data.vsphere_virtual_machine.template.id
-    }
-}
-//--end ressources--//
-output "vm_ip_address" {
-  value = vsphere_virtual_machine.vm_machine.default_ip_address
+  count = 3
+  name = format("VM-%s", ["Master", "Worker1", "Worker2"][count.index])
+  resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
+  folder = "Amen allah Ben Khalifa"
+  datastore_id = data.vsphere_datastore.datastore.id
+  guest_id = "ubuntu64Guest"
+  network_interface {
+    network_id = data.vsphere_network.network.id
+    adapter_type = "vmxnet3"
+  }
+  disk {
+    label = "disk0"
+    size  = 50
+    thin_provisioned = false
+  }
+  clone {
+    template_uuid = data.vsphere_virtual_machine.template.id
+  }
 }
 
-
+output "vm_ip_addresses" {
+  value = {for vm in vsphere_virtual_machine.vm_machine : vm.name => vm.default_ip_address}
+}
 
 
 
