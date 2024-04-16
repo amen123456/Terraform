@@ -57,6 +57,7 @@ resource "vsphere_virtual_machine" "vm_machine" {
   }
   clone {
     template_uuid = data.vsphere_virtual_machine.template.id
+    timeout       = 30
   }
 }
 
