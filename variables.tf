@@ -1,10 +1,10 @@
 variable "vsphere_login" {
-  default   = "test24"
+  default   = "abk"
   type      = string
   sensitive = true
 }
 variable "vsphere_password" {
-  default   = "CloudTemple@2024"
+  default   = "+Q#i62XWpbi5_2"
   type      = string
   sensitive = true
 }
@@ -14,7 +14,7 @@ variable "vsphere_server" {
   sensitive = true
 }
 variable "datastore_name" {
-  default = "ds001-lab-ucs02-svc1-stor3-dtx1"
+  default = "ds002-lab-stw3-data1-dtx1"
   type    = string
 }
 variable "datacenter_name" {
