@@ -40,10 +40,12 @@ data "vsphere_virtual_machine" "template" {
 //----end data sources---//
 //--ressources--//
 resource "vsphere_virtual_machine" "vm_machine" {
-  count = 3
-  name = format("VM-%s", ["Master", "Worker1", "Worker2"][count.index])
+  count = 2
+  name = format("VM-%s", ["Worker5", "Worker6"][count.index])
   resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
-  folder = "Amen allah Ben Khalifa"
+  folder = "yasmine"
+  num_cpus = 4
+  memory = 16384
   datastore_id = data.vsphere_datastore.datastore.id
   guest_id = "ubuntu64Guest"
   network_interface {
@@ -52,12 +54,12 @@ resource "vsphere_virtual_machine" "vm_machine" {
   }
   disk {
     label = "disk0"
-    size  = 50
+    size  = 80
     thin_provisioned = false
   }
   clone {
     template_uuid = data.vsphere_virtual_machine.template.id
-    timeout       = 30
+    timeout       = 60
   }
 }
 
