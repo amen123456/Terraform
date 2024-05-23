@@ -40,12 +40,10 @@ data "vsphere_virtual_machine" "template" {
 //----end data sources---//
 //--ressources--//
 resource "vsphere_virtual_machine" "vm_machine" {
-  count = 2
-  name = format("VM-%s", ["Worker5", "Worker6"][count.index])
+  count = 3
+  name = format("VM-%s", ["Master", "Worker1", "Worker2"][count.index])
   resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
-  folder = "yasmine"
-  num_cpus = 4
-  memory = 16384
+  folder = "Amen allah Ben Khalifa"
   datastore_id = data.vsphere_datastore.datastore.id
   guest_id = "ubuntu64Guest"
   network_interface {
@@ -54,7 +52,7 @@ resource "vsphere_virtual_machine" "vm_machine" {
   }
   disk {
     label = "disk0"
-    size  = 80
+    size  = 120
     thin_provisioned = false
   }
   clone {
@@ -66,10 +64,3 @@ resource "vsphere_virtual_machine" "vm_machine" {
 output "vm_ip_addresses" {
   value = {for vm in vsphere_virtual_machine.vm_machine : vm.name => vm.default_ip_address}
 }
-
-
-
-
-
-
-
